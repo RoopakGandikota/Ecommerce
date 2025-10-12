@@ -19,7 +19,8 @@ public class UserService {
 
     @Autowired
     private ProdControllerInterface objProdControllerInterface;
-    
+
+
     public List<User> getAllUsers() {
     	System.out.println(objProdControllerInterface.helper());
         return repo.findAll();

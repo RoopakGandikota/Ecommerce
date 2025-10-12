@@ -9,8 +9,8 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+//@NoArgsConstructor
+//@AllArgsConstructor
 //@RequiredArgsConstructor
 public class Product {
     @Id

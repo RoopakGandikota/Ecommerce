@@ -22,8 +22,11 @@ public class Controller {
     @Autowired
     UserService service;
 
+
+
     @GetMapping("getAllUsers")
     public ResponseEntity<List<User>> getAllUsers(){
+        System.out.println("Written by deepak");
         return new ResponseEntity<>(service.getAllUsers(), HttpStatus.OK);
     }
 
