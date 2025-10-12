@@ -1,0 +1,15 @@
+.metadata/
+.project
+.classpath
+.settings/
+bin/
+target/
+.gradle/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
