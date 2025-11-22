@@ -3,10 +3,11 @@ package com.orderservice.repo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.orderservice.model.OrderService;
+import com.orderservice.model.Orders;
+
 
 
 @Repository
-public interface OrderRepo extends JpaRepository<OrderService, Integer>{
+public interface OrderRepo extends JpaRepository<Orders, Integer>{
 
 }

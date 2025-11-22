@@ -14,14 +14,14 @@ import lombok.Data;
 
 @Entity
 @Data
-public class OrderService {
+public class Orders {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int orderid;
 	private int userid;
 	@Transient
-	private List<ProductIntf> productList;
+	private List<Integer> productList; //storing product id's to fetch.
 	private String status;
 	private Date createAt;
 	private Date updatedAt;
