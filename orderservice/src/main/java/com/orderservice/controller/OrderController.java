@@ -1,8 +1,11 @@
 package com.orderservice.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,16 +23,20 @@ public class OrderController {
 	@Autowired
 	private ServiceImpl objServiceImpl;
 	
-	@GetMapping("/demo")
-	public String getAllOrders() {
+	@GetMapping("/getAllOrders")
+	public ResponseEntity<List<Orders> > getAllOrders() {
 		
-		return objServiceImpl.demo();
+		List<Orders> lst= objServiceImpl.getAllOrders();
+		
+		return ResponseEntity.ok(lst);
 		//return "Hello from Orders, working on controller ";
 	}
 	
-	@GetMapping("/getUserById")
-	public ResponseEntity<Orders> getOrderById(){
-		Orders obj=new Orders();
+	//public List<Orders> 
+	
+	@GetMapping("/getOrdersById/{id}")
+	public ResponseEntity<Orders> getOrderById(@PathVariable("id") int id){
+		Orders obj= objServiceImpl.getOrderById(id);
 		return ResponseEntity.ok(obj);
 	}
 }

@@ -23,12 +23,12 @@ public class ProductController {
 
 
     @GetMapping("getProducts")
-    public ResponseEntity<List<Product>> getAllProducts(){
-        return new ResponseEntity<>(service.getAllProducts(), HttpStatus.OK);
+    public List<Product> getAllProducts(){
+        return service.getAllProducts();
     }
 
     @GetMapping("getProductById/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable int id){
+    public ResponseEntity<Product> getProductById(@PathVariable("id") int id){
         try{
             service.getProductsById(id);
         }catch (Exception e){
