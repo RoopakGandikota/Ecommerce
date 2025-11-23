@@ -2,13 +2,23 @@ package com.orderservice.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.orderservice.ExternalServices.ProductServiceIntf;
 import com.orderservice.model.Orders;
 
 
 @Service
 public class ServiceImpl implements OrderServiceIntf{
+	
+	@Autowired
+	private ProductServiceIntf productServiceIntf;
+	
+	public String demo() {
+		return productServiceIntf.helper();
+		//return ;
+	}
 
 	@Override
 	public List<Orders> getAllOrders() {
