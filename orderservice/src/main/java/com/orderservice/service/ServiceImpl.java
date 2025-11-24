@@ -39,7 +39,7 @@ public class ServiceImpl implements OrderServiceIntf{
 	public List<Orders> getAllOrders() {
 		// TODO Auto-generated method stub
 		List<Orders> all = repo.findAll();
-		//all.get(0).getProductList().add(1);
+
 		return all;
 	}
 	
@@ -49,13 +49,23 @@ public class ServiceImpl implements OrderServiceIntf{
 		Date crdate = sdf.parse("12-11-2025");
 		Date update= sdf.parse("13-11-2025");
 		
-		List<Product> lst=productServiceIntf.getAllProducts();
+		List<Integer> idList=new ArrayList<>();
+		idList.add(1);
+		
+		List<Product> all=productServiceIntf.getAllProducts();
 		List<Integer> ilst=new ArrayList<>();
-		for(Product p: lst) {
-			ilst.add(p.getId());
+		List<Product> prodList=new ArrayList<>();
+		
+		for(Product p:all) {
+			System.out.println(p.getId());
+			if(idList.contains(p.getId())){
+				productServiceIntf.getProductById(p.getId());
+				ilst.add(p.getId());
+				prodList.add(p);
+			}
 		}
-		ilst.add(1);
-		repo.save(new Orders(1,ilst,"Placed",crdate,update));
+		
+		repo.save(new Orders(1,prodList,ilst,"Placed",crdate,update));
 		
 	}
 
@@ -63,9 +73,27 @@ public class ServiceImpl implements OrderServiceIntf{
 	public Orders getOrderById(int id) {
 		// TODO Auto-generated method stub
 		Optional<Orders> order=repo.findById(id);
-		productServiceIntf.getProductById(1);  //hard coded id.
+		List<Product> allProducts = productServiceIntf.getAllProducts();  //hard coded id.
 		Orders obj =order.get();
-		obj.setProductList(obj.getProductList());
+		
+		List<Integer> idList=new ArrayList<>();
+		idList.add(1);
+		
+		List<Product> lst=productServiceIntf.getAllProducts();
+		List<Integer> ilst=new ArrayList<>();
+		List<Product> prodList=new ArrayList<>();
+
+		for(Product p:lst) {
+			System.out.println(p.getId());
+			if(idList.contains(p.getId())){
+				productServiceIntf.getProductById(p.getId());
+				ilst.add(p.getId());
+				prodList.add(p);
+			}
+		}
+		
+		obj.setProdIds(ilst);
+		obj.setProductList(prodList);
 		//return repo.findById(id).get();
 		return obj;
 	}

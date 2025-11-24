@@ -21,9 +21,17 @@ public class Orders {
 	private int orderid;
 	private int userid;
 	@Transient
-	private List<Integer> productList; //storing product id's to fetch.
+	private List<Product> productList; //storing product id's to fetch.
+	@Transient
+	private List<Integer> prodIds;
 	private String status;
 	private Date createAt;
+	public List<Integer> getProdIds() {
+		return prodIds;
+	}
+	public void setProdIds(List<Integer> prodIds) {
+		this.prodIds = prodIds;
+	}
 	private Date updatedAt;
 	public int getOrderid() {
 		return orderid;
@@ -37,10 +45,10 @@ public class Orders {
 	public void setUserid(int userid) {
 		this.userid = userid;
 	}
-	public List<Integer> getProductList() {
+	public List<Product> getProductList() {
 		return productList;
 	}
-	public void setProductList(List<Integer> productList) {
+	public void setProductList(List<Product> productList) {
 		this.productList = productList;
 	}
 	public String getStatus() {
@@ -58,19 +66,22 @@ public class Orders {
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-	
-	public Orders( int userid, List<Integer> productList, String status, Date createAt, Date updatedAt) {
+	public Orders( int userid,List<Product> productList, List<Integer> prodIds,  String status,
+			Date createAt, Date updatedAt) {
 		super();
 		//this.orderid = orderid;
 		this.userid = userid;
 		this.productList = productList;
+		this.prodIds = prodIds;
 		this.status = status;
 		this.createAt = createAt;
 		this.updatedAt = updatedAt;
 	}
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	
+	
 	public Orders() {
 		super();
 		// TODO Auto-generated constructor stub

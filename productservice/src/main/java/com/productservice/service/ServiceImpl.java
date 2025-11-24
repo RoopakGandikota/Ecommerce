@@ -23,7 +23,7 @@ public class ServiceImpl implements ProdService{
     
     @Override
     public List<Product> getAllProducts() {
-    	System.out.println(objUserFeignClient.demo());
+    	//System.out.println(objUserFeignClient.demo());
         return repo.findAll();
     }
 

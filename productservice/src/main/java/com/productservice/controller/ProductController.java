@@ -1,5 +1,6 @@
 package com.productservice.controller;
 
+import com.productservice.ProductserviceApplication;
 import com.productservice.model.Product;
 import com.productservice.service.ProdService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +8,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("product")
 public class ProductController {
+
+    private final ProductserviceApplication productserviceApplication;
+
+    ProductController(ProductserviceApplication productserviceApplication) {
+        this.productserviceApplication = productserviceApplication;
+    }
 
     @GetMapping("")
     public String helper(){
@@ -22,9 +30,16 @@ public class ProductController {
     private ProdService service;
 
 
-    @GetMapping("getProducts")
+    @GetMapping("/getProducts")
     public List<Product> getAllProducts(){
-        return service.getAllProducts();
+    	//System.out.println("Get all products method called");
+    	List<Product> all=new ArrayList<>();
+        try{
+        	all=service.getAllProducts();
+        }catch (Exception e) {
+			e.printStackTrace();
+		}
+        return all;
     }
 
     @GetMapping("getProductById/{id}")

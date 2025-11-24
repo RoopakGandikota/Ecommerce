@@ -27,12 +27,10 @@ public class OrderController {
 	public ResponseEntity<List<Orders> > getAllOrders() {
 		
 		List<Orders> lst= objServiceImpl.getAllOrders();
-		
+		System.out.println("Reached all orders");
 		return ResponseEntity.ok(lst);
-		//return "Hello from Orders, working on controller ";
 	}
 	
-	//public List<Orders> 
 	
 	@GetMapping("/getOrdersById/{id}")
 	public ResponseEntity<Orders> getOrderById(@PathVariable("id") int id){
