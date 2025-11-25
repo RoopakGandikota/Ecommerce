@@ -20,6 +20,7 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int orderid;
 	private int userid;
+	@Transient
 	private User user;
 	@Transient
 	private List<Product> productList; //storing product id's to fetch.
