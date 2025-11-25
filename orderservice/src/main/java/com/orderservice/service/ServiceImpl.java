@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.orderservice.ExternalServices.ProductServiceIntf;
 import com.orderservice.model.Orders;
 import com.orderservice.model.Product;
+import com.orderservice.model.User;
 import com.orderservice.repo.OrderRepo;
 
 import jakarta.annotation.PostConstruct;
@@ -48,7 +49,7 @@ public class ServiceImpl implements OrderServiceIntf{
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 		Date crdate = sdf.parse("12-11-2025");
 		Date update= sdf.parse("13-11-2025");
-		
+		User user=null;
 		List<Integer> idList=new ArrayList<>();
 		idList.add(1);
 		
@@ -65,7 +66,7 @@ public class ServiceImpl implements OrderServiceIntf{
 			}
 		}
 		
-		repo.save(new Orders(1,prodList,ilst,"Placed",crdate,update));
+		repo.save(new Orders(1,prodList,ilst,"Placed",user,crdate,update));
 		
 	}
 

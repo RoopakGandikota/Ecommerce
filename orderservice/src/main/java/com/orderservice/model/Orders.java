@@ -20,6 +20,7 @@ public class Orders {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int orderid;
 	private int userid;
+	private User user;
 	@Transient
 	private List<Product> productList; //storing product id's to fetch.
 	@Transient
@@ -60,13 +61,19 @@ public class Orders {
 	public Date getCreateAt() {
 		return createAt;
 	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	public void setCreateAt(Date createAt) {
 		this.createAt = createAt;
 	}
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
-	public Orders( int userid,List<Product> productList, List<Integer> prodIds,  String status,
+	public Orders( int userid,List<Product> productList, List<Integer> prodIds,  String status, User user,
 			Date createAt, Date updatedAt) {
 		super();
 		//this.orderid = orderid;
@@ -74,6 +81,7 @@ public class Orders {
 		this.productList = productList;
 		this.prodIds = prodIds;
 		this.status = status;
+		this.user=user;
 		this.createAt = createAt;
 		this.updatedAt = updatedAt;
 	}
