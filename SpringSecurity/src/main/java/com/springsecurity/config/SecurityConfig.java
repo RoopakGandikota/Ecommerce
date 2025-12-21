@@ -1,17 +1,28 @@
 package com.springsecurity.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.springsecurity.service.MyUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
+	@Autowired
+	private MyUserDetailsService userDetailService;
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) {
 		
@@ -39,5 +50,55 @@ public class SecurityConfig {
 		.httpBasic(Customizer.withDefaults())
 		.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.build();
+	}
+	
+	
+	//to verify username and password.
+	
+	/*@Bean
+	public UserDetailsService userDetailsService() {
+		
+		UserDetails user1= User
+				.withDefaultPasswordEncoder() //depricated.
+				.username("Deepak")
+				.password("D@123")
+				.roles("DEVELOPER")
+				.build();
+		
+		UserDetails user2= User
+				.withDefaultPasswordEncoder()
+				.username("Sowmya")
+				.password("S@456")
+				.roles("DEVELOPER")
+				.build();
+				
+		
+		return new InMemoryUserDetailsManager(user1,user2); 
+		 
+	}
+	*/
+	
+	/*@Bean
+	public AuthenticationProvider daoAuthenticationProvider() {
+		
+		DaoAuthenticationProvider provider =new DaoAuthenticationProvider(userDetailService);
+		
+		provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance()); //depricated
+		return provider;
+	} */
+	
+	@Bean
+    public AuthenticationProvider daoAuthenticationProvider(
+            PasswordEncoder passwordEncoder) {
+
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailService);
+       // provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder);
+        return provider;
+    }
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return NoOpPasswordEncoder.getInstance(); // ⚠️ ONLY FOR TESTING
 	}
 }
