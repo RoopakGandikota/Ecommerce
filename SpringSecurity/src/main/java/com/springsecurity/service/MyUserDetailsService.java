@@ -1,6 +1,10 @@
 package com.springsecurity.service;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +19,11 @@ public class MyUserDetailsService implements UserDetailsService{
 
 	@Autowired
 	private UserRepo repo;
+	private int otp;
+	private String userId;
+	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -24,8 +33,35 @@ public class MyUserDetailsService implements UserDetailsService{
 		if(user==null) {
 			throw new UsernameNotFoundException("User not found......");
 		}
-				
+		this.userId=user.getUsername();
 		return new UserPrincipal(user);
 	}
+	
+	public int getOTP() {
+		Random random = new Random();
+        int number = 100000 + random.nextInt(900000);
+        this.otp=number;
+		return number;
+	}
+	public boolean validateOtp(int num) {
+		if(otp==num) {
+			return true;
+		}
+		return false;
+	}
+	
+	public String getUserId() {
+		return userId;
+	}
 
+	public void sendEmail(String to) {
+
+	    SimpleMailMessage message = new SimpleMailMessage();
+
+	    message.setTo(to);
+	    message.setSubject("OTP Verification");
+	    message.setText("OTP: "+otp);
+
+	    mailSender.send(message);
+	}
 }

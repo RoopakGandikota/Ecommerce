@@ -3,18 +3,24 @@ package com.springsecurity.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springsecurity.model.Students;
+import com.springsecurity.service.MyUserDetailsService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class SecurityController {
+	
+	@Autowired
+	MyUserDetailsService userservice;
 	
 	@GetMapping("/demo")
 	public String demo(HttpServletRequest http) {
@@ -40,5 +46,19 @@ public class SecurityController {
 	@GetMapping("/all")
 	public List<Students> getAll(){
 		return names;
+	}
+	
+	@GetMapping("/otp")
+	public int getOTP() {
+		int otp = userservice.getOTP();
+		userservice.sendEmail(userservice.getUserId());
+		return otp;
+	}		
+	
+	@GetMapping("/validateOTP")
+	public String validateOTP(@RequestParam int number) {
+		
+		boolean validateOtp = userservice.validateOtp(number);
+		return validateOtp?"Successful":"Incorrect OTP";
 	}
 }
