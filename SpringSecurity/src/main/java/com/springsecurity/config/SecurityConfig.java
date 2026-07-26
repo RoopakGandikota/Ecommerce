@@ -1,5 +1,7 @@
 package com.springsecurity.config;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +15,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.springsecurity.service.MyUserDetailsService;
 
@@ -48,6 +53,7 @@ public class SecurityConfig {
 		.authorizeHttpRequests(request->request.anyRequest().authenticated())
 		.formLogin(Customizer.withDefaults())
 		.httpBasic(Customizer.withDefaults())
+		.cors(Customizer.withDefaults())
 		.sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 		.build();
 	}
@@ -100,5 +106,22 @@ public class SecurityConfig {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 	    return NoOpPasswordEncoder.getInstance(); // ⚠️ ONLY FOR TESTING
+	}
+	
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+
+	    CorsConfiguration configuration = new CorsConfiguration();
+
+	    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+	    configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+	    configuration.setAllowedHeaders(List.of("*"));
+
+	    UrlBasedCorsConfigurationSource source =
+	            new UrlBasedCorsConfigurationSource();
+
+	    source.registerCorsConfiguration("/**", configuration);
+
+	    return source;
 	}
 }
