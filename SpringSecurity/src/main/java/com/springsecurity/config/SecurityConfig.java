@@ -50,7 +50,9 @@ public class SecurityConfig {
 		
 		return http
 		.csrf(customizer->customizer.disable())
-		.authorizeHttpRequests(request->request.anyRequest().authenticated())
+		.authorizeHttpRequests(request -> request.requestMatchers("/otp", "/validateOTP").permitAll()
+		        .anyRequest().authenticated())
+		//.authorizeHttpRequests(request->request.anyRequest().authenticated())
 		.formLogin(Customizer.withDefaults())
 		.httpBasic(Customizer.withDefaults())
 		.cors(Customizer.withDefaults())

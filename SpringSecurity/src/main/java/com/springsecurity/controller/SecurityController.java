@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,12 +54,25 @@ public class SecurityController {
 	}
 	
 	@GetMapping("/otp")
+	public ResponseEntity<Integer> getOTP(@RequestParam() String username,@RequestParam String password) {
+		int otp = 0;
+		System.out.println("User Service is "+username);
+		UserDetails userDtls = userservice.loadUserByUsername(username);
+		if(password.equals(userDtls.getPassword())) {
+			otp=userservice.getOTP();
+			userservice.sendEmail(userDtls.getUsername());
+		}
+		if(otp==0) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<>(otp, HttpStatus.OK);
+	}
+	/* Old method to get otp from the user logged in.		
+	@GetMapping("/otp")
 	public int getOTP() {
 		int otp = userservice.getOTP();
+		System.out.println("User Service is "+username);
 		userservice.sendEmail(userservice.getUserId());
 		return otp;
-	}		
-	
+	}*/
 	@GetMapping("/validateOTP")
 	public String validateOTP(@RequestParam int number) {
 		

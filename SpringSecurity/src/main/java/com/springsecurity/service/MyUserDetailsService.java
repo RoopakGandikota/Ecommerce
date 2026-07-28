@@ -29,7 +29,7 @@ public class MyUserDetailsService implements UserDetailsService{
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		User user=repo.findUserByUsername(username);
-		
+		System.out.println("User Details are"+user.getUsername()+" "+user.getPassword());
 		if(user==null) {
 			throw new UsernameNotFoundException("User not found......");
 		}
