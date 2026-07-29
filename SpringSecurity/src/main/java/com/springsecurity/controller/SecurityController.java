@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -74,9 +75,9 @@ public class SecurityController {
 		return otp;
 	}*/
 	@GetMapping("/validateOTP")
-	public String validateOTP(@RequestParam int number) {
-		
-		boolean validateOtp = userservice.validateOtp(number);
-		return validateOtp?"Successful":"Incorrect OTP";
+	public ResponseEntity<String> validateOTP(@RequestParam int otp) {
+		System.out.println("User Entered OTP is :"+otp);
+		boolean validateOtp = userservice.validateOtp(otp);
+		return new ResponseEntity<>(validateOtp?"Successful":"Incorrect OTP",HttpStatus.OK);
 	}
 }
