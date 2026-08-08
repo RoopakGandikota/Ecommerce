@@ -39,12 +39,13 @@ public class MyUserDetailsService implements UserDetailsService{
 	
 	public int getOTP() {
 		Random random = new Random();
-        int number = 100000 + random.nextInt(900000);
+        int number = 1000 + random.nextInt(9000);
         this.otp=number;
 		return number;
 	}
 	public boolean validateOtp(int num) {
 		if(otp==num) {
+			otp=0;
 			return true;
 		}
 		return false;
